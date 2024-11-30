@@ -11,6 +11,5 @@ you follow.
 </p>
 </div>
 <!-- Recipe List Component -->
- <RecipeList />
 </div>
 </template>
