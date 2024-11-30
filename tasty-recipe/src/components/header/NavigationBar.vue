@@ -1,50 +1,45 @@
 <script setup>
-import { onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted, onErrorCaptured } from 'vue';
-import SearchMenu from './SearchMenu.vue';
-import SignUpMenu from './SignupMenu.vue';
+import SearchMenu from "./SearchMenu.vue";
+import SignupMenu from "./SignupMenu.vue";
+import ProfileMenu from "./ProfileMenu.vue";
+import { computed, ref, watch } from "vue";
+import { useStore } from "vuex";
 
-// Lifecycle Hooks
-onBeforeMount(() => {
-  console.log('Navbar component is about to be mounted');
+const menuComponent = ref("signup-menu");
+const store = useStore();
+
+const components = {
+  "signup-menu": SignupMenu,
+  "profile-menu": ProfileMenu,
+};
+
+const getToken = computed(() => {
+  return store.state.auth.token;
 });
 
-onMounted(() => {
-  console.log('Navbar component has been mounted');
-});
+if (!getToken.value) {
+  menuComponent.value = "signup-menu";
+} else {
+  menuComponent.value = "profile-menu";
+}
 
-onBeforeUpdate(() => {
-  console.log('Navbar component is about to update');
-});
-
-onUpdated(() => {
-  console.log('Navbar component has been updated');
-});
-
-onBeforeUnmount(() => {
-  console.log('Navbar component is about to be unmounted');
-});
-
-onUnmounted(() => {
-  console.log('Navbar component has been unmounted');
-});
-
-onErrorCaptured((err, instance, info) => {
-  console.error('Error captured in Navbar:', err, instance, info);
-  return false; // Return false to stop the propagation of the error
+watch(getToken, (newValue, oldValue) => {
+  if (!newValue) {
+    menuComponent.value = "signup-menu";
+  } else {
+    menuComponent.value = "profile-menu";
+  }
 });
 </script>
 
-
-
 <template>
-    <div
-    class="header__navbar row
-    justify-content-between align-items-center"
-    style="width: 450px"
-    >
-    <!-- Component SearchMenu -->
-     <SearchMenu />
-    <!-- Component SignupMenu -->
-     <SignupMenu />
-    </div>
+  <div
+    class="header__navbar row justify-content-between align-items-center"
+    style="width: 400px"
+  >
+    <SearchMenu />
+    <component :is="components[menuComponent]"></component>
+  </div>
 </template>
+
+

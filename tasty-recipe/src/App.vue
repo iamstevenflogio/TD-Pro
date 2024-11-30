@@ -1,37 +1,22 @@
 <script>
-import HomePage from "./components/pages/HomePage.vue"
-import RecipeList from "./components/recipe/RecipeList.vue"
+import WebHeader from "./components/header/WebHeader.vue";
+import HomePage from "./components/pages/HomePage.vue";
+import WebFooter from "./components/footer/WebFooter.vue";
 
-import WebHeader from "./components/header/WebHeader.vue"
-import NavigationBar from "./components/header/NavigationBar.vue"
-import WebFooter from "./components/footer/WebFooter.vue"
 export default {
-components: {
-HomePage,
-RecipeList,
-WebHeader,
-NavigationBar,
-WebFooter
-}
-}
-
+  components: {
+    WebHeader,
+    HomePage,
+    WebFooter,
+  },
+};
 </script>
 
 <template>
-  <header>
-    <div>
-    <WebHeader />
-      <HomePage /> 
-      <RecipeList />
-    <WebFooter />
+  <div>
+    <web-header></web-header>
+    <router-view></router-view>
+    <web-footer></web-footer>
   </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
 </template>
 
-<style scoped>
-
-</style>
